@@ -1,0 +1,25 @@
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+#pokedex {
+    min-height: 50vh;
+    background-color: #fb6c6c;
+    color: white;
+    display: flex;
+    padding: 24px;
+}
+
+.infoContainer {
+    background-color: white;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    min-height: 100px;
+    margin-top: -40px;
+}
+
+#pokemonImage {
+    margin-top: -124px;
+    width: 200px;
+}
