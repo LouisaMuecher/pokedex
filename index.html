@@ -1,34 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="icon" href="img/web.ico">
-  <link rel="stylesheet" href="style.css">
-  <link rel="shortcut icon" href="#">
-  <title>Pokedex</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pokedex</title>
+    <link rel="icon" href="img/ball.ico">
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js"></script>
 </head>
-<body>
-  <header>
-    <div class="menuBar">
-      <div class="headerLeft">
-        <img src="img/International_Pokemon_logo.png">
-      </div>
-      <div class="headerRight">
-        <input type="text" placeholder="Search" onkeydown="filterPokemon()">
-      </div>
-    </div>
-  </header>
-
-  <div id="pokeContainer" class="pokeContainer"></div>
-
-  <script src="script.js"></script>
-
-  <footer>
-    <div>
-      <a href="sources.html">Quellen</a>
-    </div>
-  </footer>
+<body onload="loadPokemon()">
+    <header>
+        <div class="menuBar">
+          <div class="headerLeft">
+            <img src="img/International_Pokemon_logo.png">
+          </div>
+          <div class="headerRight">
+            <input placeholder="Search Pokemon" type="text" autocomplete="off" id="input" onkeyup="searchPokemon()">
+          </div>
+        </div>
+    </header>
+    <div class="dialogBg d-none" onclick="closeDialog()" id="dialogBg"></div>
+    <div class="pokemonContainer" id="pokemonContainer"></div>
 </body>
 </html>

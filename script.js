@@ -1,65 +1,156 @@
-const pokeContainer = document.getElementById('pokeContainer');
-const pokemonNumber = 150;
-const colors = {
-	fire: '#F75131',
-	grass: '#7BCE52',
-	electric: '#FFC532',
-	water: '#58ABF6',
-	ground: '#D6B55A',
-	rock: '#BCA55A',
-	fairy: '#E4A5E5',
-	poison: '#B45AA4',
-	bug: '#ADBD20',
-	dragon: '#7B62E7',
-	psychic: '#FF72A5',
-	flying: '#9CACF5',
-	fighting: '#A35139',
-	normal: '#ADA594'
-};
+const url = 'https://pokeapi.co/api/v2/pokemon/';
+let allPokemon = [];
 
-const mainTypes = Object.keys(colors);
 
-const fetchPokemons = async () => {
-    for (let i = 1; i <= pokemonNumber; i++) {
-        await getPokemon(i);
+async function loadPokemon() {
+    document.getElementById('pokemonContainer').innerHTML += '';
+    for (let i = 0; i < 300; i++) { 
+        const pokemon_url = url + (i + 1);
+        let response = await fetch(pokemon_url);
+        let current = await response.json();
+        allPokemon.push(current);
+        renderPokemonInfo(i);
     }
 }
 
-const getPokemon = async id => {
-    const url = `https://pokeapi.co/api/v2/pokemon/${id}`
-    const res = await fetch(url);
-    const pokemon = await res.json();
-    createPokemonCard(pokemon);
+
+function searchPokemon() {
+    let search = document.getElementById('input').value;
+    search = search.toLowerCase();
+    document.getElementById('pokemonContainer').innerHTML = '';
+    for (let i = 0; i < allPokemon.length; i++) {
+        if (allPokemon[i]['name'].toLowerCase().includes(search)) {
+            renderPokemonInfo(i);
+        }
+    }
 }
 
-fetchPokemons();
 
-function createPokemonCard(pokemon) {
-    const pokemonElement = document.createElement('div');
-    pokemonElement.classList.add('pokemon');
+function renderPokemonInfo(i) {
+        document.getElementById('pokemonContainer').innerHTML += templateCreateField(i);
+        document.getElementById('pokemonName' + i).innerHTML = allPokemon[i]['name'];
+        document.getElementById('pokemonImg' + i).src = allPokemon[i]['sprites']['other']['dream_world']['front_default'];
+        for (let j = 0; j < allPokemon[i]['types'].length; j++) {
+            document.getElementById('pokemonAttribut' + i).innerHTML += templateFieldAttribute(i, j);
+        }
+}
 
-    const pokemonTypes = pokemon.types.map(element => element.type.name);
-    const type = mainTypes.find(type => pokemonTypes.indexOf(type) > -1);
-    const name = pokemon.name[0].toUpperCase() + pokemon.name.slice(1);
-    const color = colors[type];
 
-    pokemonElement.style.backgroundColor = color;
+function renderPokemonCard(i) {
+    openDialog(i);
+    loadCardHeader(i);
+    loadCardInfo(i);
+}
 
-    const pokemonInnerHTML = `
-        <span class="pokemonId"># ${pokemon.id.toString()
-            .padStart(3, '0')}</span>
-            <img class="pokeball" src="img/ball_transparent.png">
-        <div class="imgContainer">
-            <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${pokemon.id}.png">
+
+function openDialog(i) {
+    let dialogBg = document.getElementById('dialogBg');
+    dialogBg.innerHTML = '';
+    dialogBg.classList.remove('d-none');
+    dialogBg.innerHTML = templateCreateCard(i);
+    document.body.classList.add('overflow-hidden');
+}
+
+
+function loadCardHeader(i) {
+    let pokemonName = document.getElementById('cardName' + i);
+    let pokemonImage = document.getElementById('cardImg' + i);
+    let pokemonAttribut = document.getElementById('cardAttribut' + i);
+    pokemonName.innerHTML = allPokemon[i]['name'];
+    pokemonImage.src = allPokemon[i]['sprites']['other']['dream_world']['front_default'];
+    for (let j = 0; j < allPokemon[i]['types'].length; j++) {
+        pokemonAttribut.innerHTML += templateCardAttribute(i, j);
+    }
+}
+
+
+function loadCardInfo(i) {
+    let stats = allPokemon[i]['stats'];
+    for (let k = 0; k < stats.length; k++) {
+        if (stats[k]['base_stat'] < 50) {
+            loadRedBar(stats[k]);
+        }
+        else {
+            loadGreenBar(stats[k]);
+        }
+    }
+}
+
+
+function loadRedBar(stat) {
+    let pokemonInfo = document.getElementById('cardInfo');
+    pokemonInfo.innerHTML += templateCardInfo(stat);
+}
+
+
+function loadGreenBar(stat) {
+    let pokemonInfo = document.getElementById('cardInfo');
+    pokemonInfo.innerHTML += templateCardInfo(stat);
+}
+
+
+function closeDialog() {
+    document.getElementById('dialogBg').classList.add('d-none');
+    document.body.classList.remove('overflow-hidden');
+}
+
+
+function templateCreateField(i) {
+    return `
+    <div id="pokedex-${i}" class="pokedex bg-${allPokemon[i]['types'][0]['type']['name']}" onclick="renderPokemonCard(${i})">
+        <div>
+            <h2 id="pokemonName${i}" class="pokemonName"></h2>
+            <div id="pokemonAttribut${i}" class="pokemonAttributContainer"></div>
         </div>
-        <div class="pokemonInfo">
-            <h3 class="pokemonName">${name}</h3>
-            <small class="pokemonType">${pokemonTypes}</small>
-        </div>
-        
+        <img id="pokemonImg${i}" class="pokemonImg">
+    </div>
     `;
+}
 
-    pokemonElement.innerHTML = pokemonInnerHTML;
 
-    pokeContainer.appendChild(pokemonElement);
+function templateFieldAttribute(i, j) {
+    return `
+    <div class="pokemonAttribut" id="pokemonAttribut${i}-${j}">
+    ${allPokemon[i]['types'][j]['type']['name']}
+    </div>
+    `;
+}
+
+
+function templateCreateCard(i) {
+    return `
+    <div id="dialog-${i}" class="dialog bg-${allPokemon[i]['types'][0]['type']['name']}">
+        <img id="cardImg${i}" class="cardImg">
+        <div class="cardHeader">
+            <h2 id="cardName${i}" class="cardName"></h2>
+            <div id="cardAttribut${i}" class="cardAttributContainer"></div>
+        </div>
+        <div id="cardInfo" class="infoContainer">
+
+        </div>
+    </div>
+    `;
+}
+
+
+function templateCardAttribute(i, j) {
+    return `
+    <div class="cardAttribut" id="cardAttribut${i}-${j}">
+    ${allPokemon[i]['types'][j]['type']['name']}
+    </div>
+    `;
+}
+
+
+function templateCardInfo(stats, color) {
+    return `
+        <div class="infoItem">
+            <div>${stats['stat']['name']}:</div>
+            <div class="infoDiagram">
+                <div class="infoDiagramBar" style="width: ${stats['base_stat'] * 0.8}%;">
+                    ${stats['base_stat']}
+                </div>
+            </div>
+        </div>
+    `;
 }

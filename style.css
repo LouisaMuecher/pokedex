@@ -1,9 +1,25 @@
+html {
+    scroll-behavior: smooth;
+}
+
 body {
     margin: 0;
-    font-family: 'roboto';
-    /*background-color: #3a5da8;*/
-    background-color: rgb(215, 214, 214);
+    font-family: 'Helvetica';
+    background-color: rgb(244 244 244);
 }
+
+body::-webkit-scrollbar {
+    width: 0.7em;
+  }
+   
+  body::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  }
+   
+  body::-webkit-scrollbar-thumb {
+    background-color: #0A599A;
+    border-radius: 10px;
+  }
 
 /*++++++++++++++++++ HEADER ++++++++++++++++++*/
 
@@ -23,126 +39,356 @@ body {
 
 .headerRight {
     display: flex;
-    flex: 0.5;
+    flex: 0.3;
     align-items: center;
-    margin-right: 40px;
+    margin-right: 20px;
     margin-top: 16px;
     margin-left: 50px;
+    justify-content: flex-end;
 } 
 
 .headerRight input {
     border: none;
-    width: 70%;
     font-size: medium;
-    background-color: rgb(240,240,240);
+    background-color: rgb(244 244 244 / 80%);
     padding: 10px;
     border-radius: 10px;
-}
-
-#searchBall {
-    width: 35px;
-    padding-bottom: 5px;
+    outline-color: rgb(244 244 244);
 }
 
 header {
     margin-bottom: 20px;
-}
-
-/*++++++++++++++++ HEADER END ++++++++++++++++*/
-
-/*++++++++++++++++++ FOOTER ++++++++++++++++++*/
-
-footer {
-    background-color: white;
-    height: 50px;
+    position: fixed;
     width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 30px;
-    margin-bottom: 15px;
+    z-index: 1;
+    padding-bottom: 150px;
+    top: 0;
 }
 
-footer div a {
-    text-decoration: none;
-    color: black;
+  .d-none {
+    display: none;
 }
 
-/*++++++++++++++++ FOOTER END ++++++++++++++++*/
+/*+++++++++++++++++++ COLOR ++++++++++++++++++*/
 
-.pokeContainer {
+.bg-fire {
+    background-color:#F75131;
+}
+
+.bg-water {
+    background-color: #58ABF6;
+}
+
+.bg-grass {
+    background-color: #7BCE52;
+}
+
+.bg-bug {
+    background-color: #ADBD20;
+}
+
+.bg-normal {
+    background-color:#ADA594;
+}
+
+.bg-poison {
+    background-color:#B45AA4;
+}
+
+.bg-electric {
+    background-color: #FFC532;
+}
+
+.bg-ground {
+    background-color: #D6B55A;
+}
+
+.bg-fairy {
+    background-color: #E4A5E5;
+}
+
+.bg-fighting {
+    background-color: #A35139;
+}
+
+.bg-psychic {
+    background-color:  #FF72A5;
+}
+
+.bg-rock {
+    background-color: #BCA55A;
+}
+
+.bg-ghost {
+    background-color: #735797;
+}
+
+.bg-ice {
+    background-color: #68cff5;
+}
+
+.bg-dragon {
+    background-color: #d1410c;
+}
+
+.bg-steel {
+    background-color: #71797E;
+}
+
+.bg-dark {
+    background-color: #102059;
+}
+
+.bg-flying {
+    background-color: #778ACF;
+}
+
+
+/*++++++++++++++++++ POKEMON +++++++++++++++++*/
+
+.overflow-hidden {
+    overflow: hidden;
+}
+
+.pokemonContainer {
     display: flex;
     flex-wrap: wrap;
-    align-items: space-between;
     justify-content: center;
-    margin: 0 auto;
-    max-width: 1200px;
+    padding-top: 150px;
 }
 
-.pokemon {
-    background-color: #eee;
-    border-radius: 20px;
-    box-shadow: 0 3px 15px rgba(100, 100, 100, 0.5);
-    margin: 10px;
-    padding: 20px;
-    text-align: center;
+.pokedex {
+    height: 12rem;
+    width: 19rem;
+    border-radius: 2.2rem;
+    color: white;
     display: flex;
-    width: 250px;
-    height: 250px;
-    flex-direction: column;
-    justify-content: space-evenly;
+    padding: 1rem;
+    margin: 20px;
+    position: relative;
+    box-shadow: 0px 0px 6px 3px rgba(255, 255, 255, 0.5);
+    cursor: pointer;
+}
+
+.pokedex:hover {
+    opacity: 0.92;
+}
+
+.pokemonImg {
+    position: absolute;
+    width: 150px;
+    height: 150px;
+    left: 170px;
+    top: 50px;
+}
+
+.pokemonName {
+    margin-block-start: 10px;
+    margin-block-end: 15px;
+    font-size: 28px;
+    font-weight: 600;
+    text-transform: capitalize;
+}
+
+.pokemonAttribut {
+    margin: 8px;
+    padding: 6px 16px;
+    width: min-content;
+    background-color: rgba(255, 255, 255, 0.25);
+    border-radius: 24px;
+}
+
+.dialogBg {
+    position: fixed;
+    z-index: 999;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
     align-items: center;
 }
 
-.pokemon .imgContainer {
-	border-radius: 50%;
-    width: 150px;
-    height: 150px;
+.dialog {
+    z-index: 1000;
+    height: 600px;
+    width: 350px;
+    padding: 20px 40px;
+    border-radius: 2.2rem;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.cardHeader {
+    padding: 16px 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.cardName {
+    margin-block-start: 0.6rem;
+    margin-block-end: 0.6rem;
+    font-size: 35px;
+    font-weight: 600;
     text-align: center;
-    margin-bottom: 10px;
-    position: relative;
-    right: 20px;
-}
-
-.pokemon .imgContainer img {
-	padding-top: 10px;
-	max-width: 100%;
-}
-
-.pokemon .pokemonInfo {
-	margin-top: 5px;
-    padding-bottom: 15px;
-}
-
-.pokemon .pokemonId {
-	background-color: rgba(0, 0, 0, 0.09);
-    border-radius: 10px;
-    font-size: 0.8em;
-    padding: 7px 12px;
-    position: relative;
-    right: 107px;
-    top: 5px;
     color: white;
-    font-weight: bold;
+    text-transform: capitalize;
 }
 
-.pokemon .pokemonName {
-	margin: 15px 7px 12px 7px;
-	letter-spacing: 1px;
+.cardAttributContainer {
+    display: flex;
+}
+
+.cardAttribut {
+    margin: 4px;
+    padding: 6px 16px;
+    width: min-content;
+    background-color: rgba(255, 255, 255, 0.25);
+    border-radius: 24px;
     color: white;
 }
 
-.pokeball {
+.cardImg {
     position: absolute;
-    padding-left: 80px;
-    padding-bottom: 80px;
-    transform: rotate(10deg);
+    z-index: 1005;
+    height: 220px;
+    max-width: 224px;
+    top: 155px;
 }
 
-.pokemonType {
-    background-color: rgba(0, 0, 0, 0.09);
+.infoContainer {
+    position: absolute;
+    z-index: 1001;
+    bottom: 0;
+    background-color: white;
+    color: black;
+    border-radius: 1.8rem;
+    height: 300px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding-bottom: 32px;
+}
+
+.infoItem  {
+    font-size: 1em;
+    margin: 8px 28px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-transform: capitalize;
+}
+
+.infoDiagram {
+    width: 180px;
+    height: 20px;
+    background-color: black;
+    color: white;
+    font-size: 13px;
     border-radius: 10px;
-    font-size: 0.8em;
-    padding: 7px 12px;
-    color: rgb(255, 255, 255);
+    display: flex;
+}
+
+.infoDiagramBar {
+    display: flex;
+    background-color: #0A599A;
+    border-radius: 10px;
+    height: 20px;
+    justify-content: flex-start;
+    align-items: center;
+    padding-left: 10px;
+}
+
+.d-none {
+    display: none;
+}
+
+@media (max-width: 480px) {
+    .menuBar {
+        height: 120px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: white;
+    }
+    
+    .headerLeft img {
+        object-fit: contain;
+        margin-left: 20px;
+        height: 50px;  
+    }
+    
+    .headerRight {
+        display: flex;
+        flex: 0.3;
+        align-items: center;
+        margin-right: 20px;
+        margin-top: 8px;
+        margin-left: 25px;
+        justify-content: flex-end;
+    } 
+    
+    .headerRight input {
+        border: none;
+        font-size: smaller;
+        background-color: rgb(244 244 244 / 80%);
+        padding: 10px;
+        border-radius: 10px;
+        outline-color: rgb(244 244 244);
+    }
+
+    .dialog {
+        height: 500px;
+        width: 250px;
+    }
+
+    .cardImg {
+        max-width: 150px;
+        top: 90px;
+    }
+
+    .cardName {
+        font-size: 25px;
+        margin-block-start: 0.1rem;
+        margin-block-end: 0.1rem;
+    }
+
+    .cardAttribut {
+        margin: 4px;
+        padding: 5px 10px;
+        font-size: 12px;
+    }
+
+    .infoContainer {
+        height: 270px;
+    }
+
+    .infoItem {
+        margin: 5px 15px;
+    }
+
+    .pokedex {
+        width: 12rem;
+    }
+
+    .pokemonName {
+        font-size: 20px;
+    }
+
+    .pokemonAttribut {
+        display: none;
+    }
+
+    .pokemonImg {
+        left: 65px;
+        width: 120px;
+        height: 120px;
+        top: 70px;
+    }
 }
