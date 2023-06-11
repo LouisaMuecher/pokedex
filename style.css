@@ -288,7 +288,7 @@ header {
 .infoDiagram {
     width: 180px;
     height: 20px;
-    background-color: black;
+    background-color: lightgrey;
     color: white;
     font-size: 13px;
     border-radius: 10px;
